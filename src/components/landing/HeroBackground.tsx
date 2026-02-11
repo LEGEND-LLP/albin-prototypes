@@ -69,7 +69,7 @@ export function HeroBackground() {
         }
       }
     }
-    
+
     // Add proximity-based edges for nearby nodes
     for (let i = 0; i < nodeCount; i++) {
       for (let j = i + 1; j < nodeCount; j++) {
@@ -82,23 +82,23 @@ export function HeroBackground() {
 
     const animate = () => {
       if (!canvas || !ctx) return;
-      
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Update and draw edges
       edgesRef.current.forEach((edge) => {
         const fromNode = nodesRef.current[edge.from];
         const toNode = nodesRef.current[edge.to];
-        
+
         if (!fromNode || !toNode) return;
 
         const dx = toNode.x - fromNode.x;
         const dy = toNode.y - fromNode.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        
+
         if (distance < 400) {
           const opacity = (1 - distance / 400) * 0.5;
-          
+
           // Draw line - sharper, more defined
           ctx.beginPath();
           ctx.moveTo(fromNode.x, fromNode.y);
@@ -111,7 +111,7 @@ export function HeroBackground() {
           edge.progress = (edge.progress + 0.005) % 1;
           const dotX = fromNode.x + dx * edge.progress;
           const dotY = fromNode.y + dy * edge.progress;
-          
+
           ctx.beginPath();
           ctx.arc(dotX, dotY, 2.5, 0, Math.PI * 2);
           ctx.fillStyle = `hsla(150, 25%, 28%, ${opacity * 1.5})`;

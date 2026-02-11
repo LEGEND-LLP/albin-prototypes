@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Github, ArrowRight, Layers, GitBranch, Zap, ChevronDown, MousePointer, Code2, Network, Workflow } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroBackground } from "./HeroBackground";
+import { TrustSection } from "./TrustSection";
 
 export function LandingPage() {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ export function LandingPage() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <HeroBackground />
-        
+
         {/* Subtle gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background pointer-events-none" />
 
@@ -88,7 +89,7 @@ export function LandingPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed"
           >
-            Auto-generate interactive architecture diagrams. See dependencies, 
+            Auto-generate interactive architecture diagrams. See dependencies,
             data flows, and how everything connects—instantly.
           </motion.p>
 
@@ -124,17 +125,9 @@ export function LandingPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="mt-16 flex items-center justify-center gap-8 text-sm text-muted-foreground"
+            className="mt-12"
           >
-            <div className="flex items-center gap-2">
-              <Code2 className="w-4 h-4" />
-              <span>Language agnostic</span>
-            </div>
-            <div className="hidden sm:block w-px h-4 bg-border" />
-            <div className="hidden sm:flex items-center gap-2">
-              <Network className="w-4 h-4" />
-              <span>Any repo size</span>
-            </div>
+            <TrustSection />
           </motion.div>
 
           {/* Scroll indicator */}
@@ -157,7 +150,7 @@ export function LandingPage() {
       {/* Features Section */}
       <section className="py-32 px-6 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background pointer-events-none" />
-        
+
         <div className="max-w-6xl mx-auto relative">
           {/* Section header */}
           <motion.div
@@ -235,7 +228,7 @@ export function LandingPage() {
       {/* Final CTA */}
       <section className="py-32 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-primary/5 via-transparent to-transparent pointer-events-none" />
-        
+
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -340,8 +333,8 @@ function ValueProp({ index, icon, title, description, features, reversed, imageS
         <div className="flex-1 w-full">
           <div className="aspect-[4/3] rounded-2xl border border-border/50 shadow-lg overflow-hidden">
             {imageSrc ? (
-              <img 
-                src={imageSrc} 
+              <img
+                src={imageSrc}
                 alt={title}
                 className="w-full h-full object-cover object-top"
               />
