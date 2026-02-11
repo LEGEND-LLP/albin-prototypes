@@ -29,6 +29,13 @@ const GROUP_COLOR_VARS: Record<string, string> = {
   "d-gateway": "--node-rust",
   "d-sdks": "--node-external",
   "d-infra": "--node-data",
+  // ksync groups
+  "k-cli": "--node-problem",
+  "k-core": "--node-utility",
+  "k-syncthing": "--node-component",
+  "k-radar": "--node-config",
+  "k-proto": "--node-api",
+  "k-infra": "--node-data",
 };
 
 function getGroupColorVar(group: string): string {

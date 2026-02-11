@@ -34,12 +34,43 @@ export const demoRepositories: Repository[] = [
     stars: 54700,
     lastUpdated: "2 hours ago",
   },
+  {
+    id: "ksync",
+    name: "ksync",
+    owner: "ksync",
+    description: "Sync files between your local system and a kubernetes cluster",
+    language: "Go",
+    languageColor: "#00ADD8",
+    stars: 1500,
+    lastUpdated: "3 hours ago",
+  },
+  {
+    id: "daytona-scip",
+    name: "daytona",
+    owner: "daytonaio",
+    description: "Daytona (SCIP) — compiler-verified architecture from scip-go indexing",
+    language: "Go",
+    languageColor: "#00ADD8",
+    stars: 54700,
+    lastUpdated: "2 hours ago",
+  },
+  {
+    id: "daytona-complete",
+    name: "daytona",
+    owner: "daytonaio",
+    description: "Daytona (Complete) — SCIP-verified structure with semantic descriptions",
+    language: "Go",
+    languageColor: "#00ADD8",
+    stars: 54700,
+    lastUpdated: "1 hour ago",
+  },
 ];
 
 export type NodeType = "component" | "api" | "utility" | "data" | "config" | "problem" | "actor" | "external";
 export type ZoomLevel = "context" | "system" | "module" | "file";
 export type SystemGroup = "web-app" | "frontend" | "plugin-server" | "workers" | "temporal" | "rust-services" | "infrastructure" | "livestream"
-  | "d-api" | "d-dashboard" | "d-runner" | "d-daemon" | "d-cli" | "d-gateway" | "d-sdks" | "d-infra";
+  | "d-api" | "d-dashboard" | "d-runner" | "d-daemon" | "d-cli" | "d-gateway" | "d-sdks" | "d-infra"
+  | "k-cli" | "k-core" | "k-syncthing" | "k-radar" | "k-proto" | "k-infra";
 
 export interface TechnicalSpec {
   title: string;
@@ -1477,10 +1508,23 @@ const daytonaGroups: { id: SystemGroup; label: string; color: string }[] = [
   { id: "d-infra", label: "Infrastructure", color: "hsl(var(--node-data))" },
 ];
 
+// ksync groups
+const ksyncGroups: { id: SystemGroup; label: string; color: string }[] = [
+  { id: "k-cli", label: "CLI & Utilities", color: "hsl(var(--node-problem))" },
+  { id: "k-core", label: "Core / Watch Service", color: "hsl(var(--node-utility))" },
+  { id: "k-syncthing", label: "Syncthing Manager", color: "hsl(var(--node-component))" },
+  { id: "k-radar", label: "Radar (Remote)", color: "hsl(var(--node-config))" },
+  { id: "k-proto", label: "Protobuf / gRPC", color: "hsl(var(--node-api))" },
+  { id: "k-infra", label: "DaemonSet & Docker", color: "hsl(var(--node-data))" },
+];
+
 export const systemGroups: { id: SystemGroup; label: string; color: string }[] = posthogGroups;
 
 export function getSystemGroupsForRepo(repoId?: string): { id: SystemGroup; label: string; color: string }[] {
   if (repoId === "daytona") return daytonaGroups;
+  if (repoId === "daytona-scip") return daytonaGroups;
+  if (repoId === "daytona-complete") return daytonaGroups;
+  if (repoId === "ksync") return ksyncGroups;
   return posthogGroups;
 }
 
@@ -1496,12 +1540,54 @@ import {
   daytonaFileNodes, daytonaFileEdges,
 } from "./demoDataDaytona";
 
+// ksync data imports
+import {
+  ksyncContextNodes, ksyncContextEdges,
+  ksyncSystemNodes, ksyncSystemEdges,
+  ksyncModuleNodes, ksyncModuleEdges,
+  ksyncFileNodes, ksyncFileEdges,
+} from "./demoDataKsync";
+
+// Daytona SCIP data imports
+import {
+  daytonaScipContextNodes, daytonaScipContextEdges,
+  daytonaScipSystemNodes, daytonaScipSystemEdges,
+  daytonaScipModuleNodes, daytonaScipModuleEdges,
+  daytonaScipFileNodes, daytonaScipFileEdges,
+} from "./demoDataDaytonaScip";
+
+// Daytona Complete data imports (SCIP-verified + semantic descriptions)
+import {
+  daytonaCompleteContextNodes, daytonaCompleteContextEdges,
+  daytonaCompleteSystemNodes, daytonaCompleteSystemEdges,
+  daytonaCompleteModuleNodes, daytonaCompleteModuleEdges,
+  daytonaCompleteFileNodes, daytonaCompleteFileEdges,
+} from "./demoDataDaytonaComplete";
+
 export function getNodesForLevel(level: ZoomLevel, repoId?: string): GraphNode[] {
   if (repoId === "daytona") {
     if (level === "context") return daytonaContextNodes;
     if (level === "system") return daytonaSystemNodes;
     if (level === "file") return daytonaFileNodes;
     return daytonaModuleNodes;
+  }
+  if (repoId === "daytona-scip") {
+    if (level === "context") return daytonaScipContextNodes;
+    if (level === "system") return daytonaScipSystemNodes;
+    if (level === "file") return daytonaScipFileNodes;
+    return daytonaScipModuleNodes;
+  }
+  if (repoId === "daytona-complete") {
+    if (level === "context") return daytonaCompleteContextNodes;
+    if (level === "system") return daytonaCompleteSystemNodes;
+    if (level === "file") return daytonaCompleteFileNodes;
+    return daytonaCompleteModuleNodes;
+  }
+  if (repoId === "ksync") {
+    if (level === "context") return ksyncContextNodes;
+    if (level === "system") return ksyncSystemNodes;
+    if (level === "file") return ksyncFileNodes;
+    return ksyncModuleNodes;
   }
   if (level === "context") return contextNodes;
   if (level === "system") return systemNodes;
@@ -1515,6 +1601,24 @@ export function getEdgesForLevel(level: ZoomLevel, repoId?: string): GraphEdge[]
     if (level === "system") return daytonaSystemEdges;
     if (level === "file") return daytonaFileEdges;
     return daytonaModuleEdges;
+  }
+  if (repoId === "daytona-scip") {
+    if (level === "context") return daytonaScipContextEdges;
+    if (level === "system") return daytonaScipSystemEdges;
+    if (level === "file") return daytonaScipFileEdges;
+    return daytonaScipModuleEdges;
+  }
+  if (repoId === "daytona-complete") {
+    if (level === "context") return daytonaCompleteContextEdges;
+    if (level === "system") return daytonaCompleteSystemEdges;
+    if (level === "file") return daytonaCompleteFileEdges;
+    return daytonaCompleteModuleEdges;
+  }
+  if (repoId === "ksync") {
+    if (level === "context") return ksyncContextEdges;
+    if (level === "system") return ksyncSystemEdges;
+    if (level === "file") return ksyncFileEdges;
+    return ksyncModuleEdges;
   }
   if (level === "context") return contextEdges;
   if (level === "system") return systemEdges;
